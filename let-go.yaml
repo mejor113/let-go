@@ -1,0 +1,10 @@
+namespace: let-go
+let-go:
+  defines: runnable
+  metadata:
+    name: let-go
+    description: Let-Go is a simple Lispy language compiled to Go and being a Go library.
+    icon: https://emojiapi.dev/api/v1/books.svg
+  containers:
+    let-go:
+      build: .
