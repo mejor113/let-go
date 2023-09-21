@@ -1,0 +1,38 @@
+namespace: let-go
+let-go:
+  defines: runnable
+  metadata:
+    name: let-go
+    description: >-
+      The application is a read-eval-print loop (REPL) which provides an
+      interactive shell for evaluating expressions.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go:
+      build: .
+  variables:
+    run-repl:
+      env: RUN_REPL
+      type: string
+      description: flag to attach REPL after running given files
+      value: 'false'
+    expr:
+      env: EXPR
+      type: string
+      description: eval given expression
+      value: '!!!SETME!!!'
+    debug:
+      env: DEBUG
+      type: string
+      description: enable VM debug mode
+      value: 'false'
+    run-nrepl:
+      env: RUN_NREPL
+      type: string
+      description: enable nREPL server
+      value: 'false'
+    nrepl-port:
+      env: NREPL_PORT
+      type: string
+      description: set nREPL port
+      value: '2137'
