@@ -1,0 +1,44 @@
+namespace: let-go
+let-go:
+  defines: runnable
+  metadata:
+    name: let-go
+    description: Let-go is a Lisp compiler and runtime written in Go.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go:
+      build: .
+  services:
+    nrepl-server-port:
+      container: let-go
+      port: <- $nrepl-port
+      host-port: <- $nrepl-port
+      publish: false
+      protocol: TCP
+      description: Port for nREPL server to accept connections.
+  variables:
+    run-repl:
+      env: RUN_REPL
+      type: string
+      description: Attach REPL after running files
+      value: '''false'''
+    expr:
+      env: EXPR
+      type: string
+      description: Evaluate given expression
+      value: '!!!SETME!!!'
+    debug:
+      env: DEBUG
+      type: string
+      description: Enable VM debug mode
+      value: '''false'''
+    run-nrepl:
+      env: RUN_NREPL
+      type: string
+      description: Enable nREPL server
+      value: '''false'''
+    nrepl-port:
+      env: NREPL_PORT
+      type: int
+      description: Set nREPL port, default is 2137
+      value: '2137'
