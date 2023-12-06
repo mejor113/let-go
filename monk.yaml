@@ -1,0 +1,49 @@
+namespace: let-go
+
+let-go-backend:
+  defines: runnable
+  metadata:
+    name: let-go-backend
+    description: Go backend service for the let-go language VM and compiler
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go-backend:
+      image: env-3371.registry.local/let-go-backend:main-73db05b
+      build: .
+      dockerfile: Dockerfile
+  services: {}
+  connections: {}
+  variables: {}
+
+let-go-wasm-server:
+  defines: runnable
+  metadata:
+    name: let-go-wasm-server
+    description: Node.js server serving the WebAssembly front-end for the let-go language
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go-wasm-server:
+      image: env-3371.registry.local/let-go-wasm-server:main-73db05b
+      build: .
+      dockerfile: Dockerfile.let-go-wasm-server
+  services:
+    http-server:
+      description: Port for serving the WebAssembly front-end
+      container: let-go-wasm-server
+      port: 8080
+      host-port: 8080
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables:
+    name:
+      env: NAME
+      type: string
+      value: World
+      description: Default name to be used in the server greeting
+
+stack:
+  defines: group
+  members:
+    - let-go/let-go-backend
+    - let-go/let-go-wasm-server
