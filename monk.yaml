@@ -1,0 +1,54 @@
+namespace: let-go
+
+let-go-backend:
+  defines: runnable
+  metadata:
+    name: let-go-backend
+    description: Main Go application service for the bytecode compiler and VM.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go-backend:
+      image: env-3449.registry.local/let-go-backend:main-73db05b
+      build: .
+      dockerfile: Dockerfile
+  services: {}
+  connections: {}
+  variables:
+    nrepl-port:
+      env: NREPL_PORT
+      type: int
+      value: '2137'
+      description: Port for the nREPL server, default is 2137
+
+let-go-frontend:
+  defines: runnable
+  metadata:
+    name: let-go-frontend
+    description: Web frontend service providing a REPL interface.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go-frontend:
+      image: env-3449.registry.local/let-go-frontend:main-73db05b
+      build: .
+      dockerfile: Dockerfile.let-go-frontend
+  services:
+    http-server:
+      description: HTTP server listening port
+      container: let-go-frontend
+      port: 8080
+      host-port: 8080
+      publish: true
+      protocol: tcp
+  connections:
+    frontend-to-backend:
+      target: let-go/let-go-backend
+      service: '!!!SETME!!!'
+      optional: true
+      description: Connection from let-go-frontend to let-go-backend service
+  variables: {}
+
+stack:
+  defines: group
+  members:
+    - let-go/let-go-backend
+    - let-go/let-go-frontend
