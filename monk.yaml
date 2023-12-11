@@ -1,0 +1,51 @@
+namespace: let-go
+
+let-go-nrepl-server:
+  defines: runnable
+  metadata:
+    name: let-go-nrepl-server
+    description: nREPL server for the let-go language, handling incoming REPL connections.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go-nrepl-server:
+      image: env-3561.registry.local/let-go-nrepl-server:main-73db05b
+      build: .
+      dockerfile: Dockerfile.let-go-nrepl-server
+  services:
+    nrepl-server-port:
+      description: Port for nREPL server connections
+      container: let-go-nrepl-server
+      port: 8080
+      host-port: 8080
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables: {}
+
+let-go-web-repl:
+  defines: runnable
+  metadata:
+    name: let-go-web-repl
+    description: Web-based REPL for the let-go language compiled to WebAssembly.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go-web-repl:
+      image: env-3561.registry.local/let-go-web-repl:main-73db05b
+      build: .
+      dockerfile: Dockerfile.let-go-web-repl
+  services:
+    web-interface:
+      description: Port for serving the web interface of the let-go-web-repl service
+      container: let-go-web-repl
+      port: 8080
+      host-port: 8080
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables: {}
+
+stack:
+  defines: group
+  members:
+    - let-go/let-go-nrepl-server
+    - let-go/let-go-web-repl
