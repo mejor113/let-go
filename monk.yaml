@@ -1,0 +1,51 @@
+namespace: let-go
+
+let-go-vm:
+  defines: runnable
+  metadata:
+    name: let-go-vm
+    description: Bytecode compiler and VM for the let-go language
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go-vm:
+      image: env-3561.registry.local/let-go-vm:main-73db05b
+      build: .
+      dockerfile: Dockerfile
+  services:
+    default-http:
+      description: Default HTTP port for let-go-vm service
+      container: let-go-vm
+      port: 7070
+      host-port: 7070
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables: {}
+
+let-go-web-repl:
+  defines: runnable
+  metadata:
+    name: let-go-web-repl
+    description: Web-based REPL for the let-go language, served by a Node.js application
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go-web-repl:
+      image: env-3561.registry.local/let-go-web-repl:main-73db05b
+      build: .
+      dockerfile: Dockerfile.let-go-web-repl
+  services:
+    web-interface:
+      description: Port for the web-based REPL interface
+      container: let-go-web-repl
+      port: 8080
+      host-port: 8080
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables: {}
+
+stack:
+  defines: group
+  members:
+    - let-go/let-go-vm
+    - let-go/let-go-web-repl
