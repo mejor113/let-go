@@ -1,0 +1,28 @@
+namespace: let-go
+
+let-go:
+  defines: runnable
+  metadata:
+    name: let-go
+    description: Main bytecode compiler and VM for let-go, including REPL and nREPL server.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go:
+      image: env-3609.registry.local/let-go:main-73db05b
+      build: .
+      dockerfile: Dockerfile
+  services:
+    http-server:
+      description: HTTP server listening port
+      container: let-go
+      port: 7070
+      host-port: 7070
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables: {}
+
+stack:
+  defines: group
+  members:
+    - let-go/let-go
