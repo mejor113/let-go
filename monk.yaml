@@ -1,0 +1,32 @@
+namespace: let-go
+
+let-go:
+  defines: runnable
+  metadata:
+    name: let-go
+    description: >-
+      Bytecode compiler and VM for a Clojure dialect with an HTTP server
+      component.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go:
+      image: env-4138.registry.local/let-go:main-73db05b
+      build: .
+      dockerfile: Dockerfile
+  services:
+    http-server-port:
+      description: >-
+        Port exposed by the HTTP server component of the service to serve HTTP
+        requests
+      container: let-go
+      port: 7070
+      host-port: 7070
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables: {}
+
+stack:
+  defines: group
+  members:
+    - let-go/let-go
