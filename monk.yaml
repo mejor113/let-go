@@ -1,0 +1,21 @@
+namespace: let-go
+
+let-go-backend:
+  defines: runnable
+  metadata:
+    name: let-go-backend
+    description: Backend service for the let-go bytecode compiler and VM.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    let-go-backend:
+      image: env-4366.registry.local/let-go-backend:main-73db05b
+      build: .
+      dockerfile: Dockerfile
+  services: {}
+  connections: {}
+  variables: {}
+
+stack:
+  defines: group
+  members:
+    - let-go/let-go-backend
