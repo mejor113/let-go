@@ -1,0 +1,29 @@
+namespace: let-go
+
+let-go-backend:
+  defines: runnable
+  metadata:
+    name: let-go-backend
+    description: >-
+      Backend service for bytecode compilation and VM, including REPL and nREPL
+      server.
+    icon: https://emojiapi.dev/api/v1/crystal_ball.svg
+  containers:
+    let-go-backend:
+      image: env-5164.registry.local/let-go-backend:main-iby00b
+      build: .
+      dockerfile: Dockerfile
+  services: {}
+  connections: {}
+  variables: {}
+
+stack:
+  defines: group
+  members:
+    - let-go/let-go-backend
+  metadata:
+    name: let-go
+    description: >-
+      A bytecode compiler and VM for a Clojure-like language, capable of running
+      as a REPL or nREPL server.
+    icon: https://emojiapi.dev/api/v1/crystal_ball.svg
